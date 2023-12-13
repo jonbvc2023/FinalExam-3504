@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies and build
+      run: |
+        # Add commands to install dependencies and build your application
+        # For example:
+        # npm install
+        # npm run build
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        script: |
+          # Add commands to copy files to your EC2 instance and restart your application
+          # For example:
+          # scp -i /path/to/key.pem -r ./dist/* ec2-user@<EC2-IP>:/path/to/app/
+          # ssh -i /path/to/key.pem ec2-user@<EC2-IP> "sudo systemctl restart your-app"
